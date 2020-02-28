@@ -21,8 +21,16 @@
             <div class="col-sm-2">
                 <center><img src ={% static 'images/meo.jpg' %} class="responive-img" style="max-height:150px"/></center>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
                 <h1> <center>Blog lam tu python django</center></h1>
+            </div>
+            <div class="col-sm-1">
+                {%if user.username %}
+                    <p>xin chào {{user.username}}</p>
+                    <p><a href="{% url 'logout' %}">Đăng xuất</a></p>
+                {%else%}
+                                    <p><a href="{% url 'register' %}">Đăng kí</a></p>|<p><a href="{% url 'login'%}">Đăng nhập</a></p>
+                {%endif%}
             </div>
         </div>
         <br>

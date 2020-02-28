@@ -5,13 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Document</title>
+    <title>Login</title>
 </head>
 <body>
     <center>
-        <form method= 'POST'>
+        <form method= 'POST' action="/">
+            {% csrf_token %}
+            {%for key,value in form.error.iterms%}
+                {{value}}
+            {%endfor%}
            <p><label>Tài Khoản :</label>{{form.username}}</p>
-           <p><label>Mật Khẩu :</label>{{form.pasword}}</p>
+           <p><label>Mật Khẩu :</label>{{form.password}}</p>
+           <input type = "hidden" name='next' value="/"/>
+           <input type = "submit" value= "Đăng nhập"/>
         </form>
 
     </center>
