@@ -1,8 +1,11 @@
 from django import forms
-
+import re
+from django.contrib.auth.models import User
+#from django.core.exceptions import ObjectDoesNotExit
+from django.core.exceptions import ObjectDoesNotExist
 class RegistrationForm(forms.Form):
     username = forms.CharField(label='Tài Khoản', max_length=30)
-    email = forms.CharField(label='Email')
+    email = forms.EmailField(label='Email')
     password1 = forms.CharField(label='Mật Khẩu', widget=forms.PasswordInput())
     password2 = forms.CharField(label='Nhập lại mật khẩu', widget=forms.PasswordInput())
 
@@ -13,3 +16,15 @@ class RegistrationForm(forms.Form):
             if password1 == password2 and password1:
                 return password2
         raise forms.ValidationError("Mật khẩu không hợp lệ")
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if not re.search(r'[a-zA-z0-9]+$', username):
+            raise forms.ValidationError("Tên tài khoản có kí tự đặc biệt")
+        try:
+            username = User.objects.get(username=username)
+        except ObjectDoesNotExist:
+            return username
+        raise forms.ValidationError("Tài khoản đã tồn tại")
+        
+    def save(self):
+        User.objects.create_user(username=self.cleaned_data['username'], email=self.cleaned_data['email'], password=self.cleaned_data['password1'])
