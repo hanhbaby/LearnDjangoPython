@@ -6,11 +6,10 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 def index(request):
-    print ('hanhhanh')
     #user = User.objects.first()
     #print(user)
     return render(request, 'pages/home.html')
-    # return render(request, 'pages/home.html', {'user' : user})
+   # return render(request, 'pages/home.html', {'user' : user})
 def contact(request):
     return render(request, 'pages/contact.html')
 def error(request):
