@@ -8,10 +8,8 @@ def post(request, pk):
     post = get_object_or_404(Post, pk=pk)
     form = CommentForm()
     if request.method == 'POST':
-        form = CommentForm(request, author=request.user, post=post)
-        print("debugggggaaa")
-        #if form.is_valid():
-        print("debuggggg")
-        form.save()
-        return HttpResponseRedirect(request.path)
+        form = CommentForm(request.POST, author=request.user, post=post)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(request.path)
     return render(request, "blog/post.html", {"post":post, "form":form})
