@@ -1,0 +1,12 @@
+<table class="">
+    <tr>
+        <th>Number</th>
+        <th>Comment</th>
+    </tr>
+    {% for comment in list_comment%}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{comment}}</td>
+    </tr>
+    {%endfor%}
+</table>

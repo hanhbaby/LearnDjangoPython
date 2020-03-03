@@ -8,20 +8,51 @@
 {% comment %} <img src="{{post.image.url}}" width ="500px" height="300px"/> {% endcomment %}
 <h6>on {{post.date}}</h6>
 {{post.body|safe|linebreaks}}
+
 {% for comment in post.comments.all  %}
-    <h4><strong>{{comment.author}}</strong></h4>
+    <!-- <h4><strong>{{comment.author}}</strong></h4>
     <h6><p>{{comment.date}}</p></h6>
-    <H6><p>{{comment.body| linebreaks}}</p></h6>
+    <H6><p>{{comment.body| linebreaks}}</p></h6> -->
 {% endfor %}
+
 {% if user.username %}
-    <form action="{%url 'post' post.id%}" method = 'POST'>
+    <!-- <form action="{%url 'post' post.id%}" method = 'POST'>
         {% csrf_token %}
         <p><lable>Bình luận: </lable></p>
         {{form.body}}
         </br>
         <input type="submit" value = "Bình luận"/>
-    </form>
+    </form> -->
+    
+  <input type="text" id="comment"/>
+  <button onclick="update_comment()">Submit</button>
+  <div id="data_table"></div>
 {% else %}
 {% endif %}
+
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+<script>
+  function update_comment(){
+    var comment = $('#comment').val()
+    $.ajax({
+      type: "POST",
+      url: "/blog/update-comment",
+      dataType: "html",
+      data: { 
+              'comment': comment ,
+              'csrfmiddlewaretoken': '{{ csrf_token }}' 
+            },
+      success: function (response) {
+        console.log(response)
+        $('#data_table').html(response)
+      },
+      error: function (xhr, status, e) {
+      }
+    });
+  }
+</script>
+
+
 {% endblock  %}
 

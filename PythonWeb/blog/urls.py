@@ -1,7 +1,10 @@
 from django.urls import path
+from django.conf.urls import url, include
 from . import views
 from  .models import Post
 from django.views.generic import ListView, DetailView
+
+
 urlpatterns = [
     path('', ListView.as_view(
         queryset = Post.objects.all().order_by("-date"),
@@ -10,4 +13,5 @@ urlpatterns = [
         paginate_by = 10,
     ), name = 'blog'),
     path('<int:pk>', views.post , name = 'post'),
+    path('update-comment', views.update_comment), 
 ]
